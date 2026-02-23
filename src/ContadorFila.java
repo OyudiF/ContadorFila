@@ -11,16 +11,33 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 public class ContadorFila {
     // Vars App
     static int senha = 0;
+    static JLabel labelNum = new JLabel("0");
+
+    public static void avancarSenha() {
+        senha += 1;
+        labelNum.setText(senha + "");
+    }
+
+    public static void voltarSenha() {
+        senha -= 1;
+        labelNum.setText(senha + "");
+    }
+
+    public static void deleteSenha() {
+        senha = 0;
+        labelNum.setText(senha + "");
+    }
+
 
     public static void main(String[] args) {
 
         // Vars do Swing
         JFrame janela = new JFrame("Contador de Senhas");
-        JLabel labelNum = new JLabel("0");
         JLabel labelText = new JLabel("Próxima Senha");
         JLabel labelAssinatura = new JLabel("Desenvolvido por: Felipe Yudi");
         JPanel panel = new JPanel();
@@ -28,17 +45,18 @@ public class ContadorFila {
         JButton buttonNext = new JButton("Avançar");
         JButton buttonBack = new JButton("Voltar");
         JButton buttonReset = new JButton("Zerar");
-        Font fonteMaior = new Font("Arial", Font.BOLD, 80);
+        Font fonteMaior = new Font("Arial", Font.BOLD, 600);
         Font fonteMedia = new Font("Arial", Font.BOLD, 35);
 
         // Configurando labels
         labelNum.setFont(fonteMaior);
         labelNum.setHorizontalAlignment(SwingConstants.CENTER);
+        labelNum.setForeground(Color.RED);
         labelText.setFont(fonteMedia);
         labelText.setHorizontalAlignment(SwingConstants.CENTER);
 
         // Janela Configs
-        janela.setSize(800, 480);
+        janela.setSize(1280, 720);
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         janela.setLayout(new BorderLayout());
         janela.setBackground(Color.WHITE);
@@ -92,8 +110,7 @@ public class ContadorFila {
         buttonNext.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                senha += 1;
-                labelNum.setText(senha + "");
+                avancarSenha();
             }
         });
 
@@ -101,8 +118,7 @@ public class ContadorFila {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(senha > 0) {
-                    senha -= 1;
-                    labelNum.setText(senha + "");
+                    voltarSenha();
                 }
             }
         });
@@ -110,8 +126,24 @@ public class ContadorFila {
         buttonReset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                senha = 0;
-                labelNum.setText(senha + "");
+                deleteSenha();
+            }
+        });
+
+        // Controle pelo teclado
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent e) {
+                if(e.getID() == KeyEvent.KEY_RELEASED) {
+                    if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                        avancarSenha();
+                    } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                        voltarSenha();
+                    } else if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+                        deleteSenha();
+                    }
+                }
+                return false;
             }
         });
 
