@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Created-By: Felipe Yudi F. Ochiai
+Main-Class: ContadorFila
+X-Author: Felipe Yudi F. Ochiai
+X-Project-Version: 1.0

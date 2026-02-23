@@ -1,3 +1,10 @@
+/**
+ * Contador de Senhas
+ * @author Felipe Yudi F. Ochiai
+ * @since 23/02/2026
+ * @version 1.0
+ */
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -15,7 +22,9 @@ public class ContadorFila {
         JFrame janela = new JFrame("Contador de Senhas");
         JLabel labelNum = new JLabel("0");
         JLabel labelText = new JLabel("Próxima Senha");
+        JLabel labelAssinatura = new JLabel("Desenvolvido por: Felipe Yudi");
         JPanel panel = new JPanel();
+        JPanel panelContainer = new JPanel();
         JButton buttonNext = new JButton("Avançar");
         JButton buttonBack = new JButton("Voltar");
         JButton buttonReset = new JButton("Zerar");
@@ -64,10 +73,20 @@ public class ContadorFila {
         panel.add(buttonReset);
         panel.add(buttonNext);
 
+        // Assinatura
+        panelContainer.setLayout(new BoxLayout(panelContainer, BoxLayout.Y_AXIS));
+        labelAssinatura.setFont(new Font("Arial", Font.PLAIN, 12));
+        labelAssinatura.setForeground(Color.GRAY);
+        labelAssinatura.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        panelContainer.add(panel);
+        panelContainer.add(Box.createRigidArea(new Dimension(0, 5)));
+        panelContainer.add(labelAssinatura);
+
         // Adicionando na Janela
         janela.add(labelNum, BorderLayout.CENTER);
         janela.add(labelText, BorderLayout.NORTH);
-        janela.add(panel, BorderLayout.SOUTH);
+        janela.add(panelContainer, BorderLayout.SOUTH);
 
         // Metodo dos botões
         buttonNext.addActionListener(new ActionListener() {
