@@ -1,153 +1,103 @@
-/**
- * Contador de Senhas
- * @author Felipe Yudi F. Ochiai
- * @since 23/02/2026
- * @version 1.0
- */
-
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 public class ContadorFila {
-    // Vars App
-    static int senha = 0;
-    static JLabel labelNum = new JLabel("0");
 
-    public static void avancarSenha() {
-        senha += 1;
-        labelNum.setText(senha + "");
+    private static int senhaA = 0;
+    private static int senhaB = 0;
+
+    private static final JLabel labelNumA = new JLabel("0", SwingConstants.CENTER);
+    private static final JLabel labelNumB = new JLabel("0", SwingConstants.CENTER);
+
+    private static void atualizar(JLabel label, int valor) {
+        label.setText(String.valueOf(valor));
     }
 
-    public static void voltarSenha() {
-        senha -= 1;
-        labelNum.setText(senha + "");
+    private static void avancarA() {
+        atualizar(labelNumA, ++senhaA);
     }
 
-    public static void deleteSenha() {
-        senha = 0;
-        labelNum.setText(senha + "");
+    private static void voltarA() {
+        if (senhaA > 0) atualizar(labelNumA, --senhaA);
     }
 
+    private static void zerarA() {
+        senhaA = 0;
+        atualizar(labelNumA, senhaA);
+    }
+
+    private static void avancarB() {
+        atualizar(labelNumB, ++senhaB);
+    }
+
+    private static void voltarB() {
+        if (senhaB > 0) atualizar(labelNumB, --senhaB);
+    }
+
+    private static void zerarB() {
+        senhaB = 0;
+        atualizar(labelNumB, senhaB);
+    }
 
     public static void main(String[] args) {
 
-        // Vars do Swing
         JFrame janela = new JFrame("Contador de Senhas");
-        JLabel labelText = new JLabel("Próxima Senha");
-        JLabel labelAssinatura = new JLabel("Desenvolvido por: Felipe Yudi");
-        JPanel panel = new JPanel();
-        JPanel panelContainer = new JPanel();
-        JButton buttonNext = new JButton("Avançar");
-        JButton buttonBack = new JButton("Voltar");
-        JButton buttonReset = new JButton("Zerar");
-        Font fonteMaior = new Font("Arial", Font.BOLD, 600);
-        Font fonteMedia = new Font("Arial", Font.BOLD, 35);
-
-        // Configurando labels
-        labelNum.setFont(fonteMaior);
-        labelNum.setHorizontalAlignment(SwingConstants.CENTER);
-        labelNum.setForeground(Color.RED);
-        labelText.setFont(fonteMedia);
-        labelText.setHorizontalAlignment(SwingConstants.CENTER);
-
-        // Janela Configs
         janela.setSize(1280, 720);
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         janela.setLayout(new BorderLayout());
-        janela.setBackground(Color.WHITE);
 
-        // Botões
-        buttonBack.setFont(fonteMedia);
-        buttonBack.setFocusPainted(false);
-        buttonBack.setBackground(Color.WHITE);
-        buttonBack.setForeground(Color.BLACK);
-        buttonBack.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(Color.DARK_GRAY),
-                new EmptyBorder(8, 15, 8, 15)));
+        Font fonteNumero = new Font("Arial", Font.BOLD, 600);
+        Font fonteTitulo = new Font("Arial", Font.BOLD, 50);
 
-        buttonReset.setFont(fonteMedia);
-        buttonReset.setFocusPainted(false);
-        buttonReset.setBackground(Color.WHITE);
-        buttonReset.setForeground(Color.BLACK);
-        buttonReset.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(Color.DARK_GRAY),
-                new EmptyBorder(8, 15, 8, 15)));
+        JLabel labelDemanda = new JLabel("Demanda", SwingConstants.CENTER);
+        JLabel labelTEG = new JLabel("TEG", SwingConstants.CENTER);
 
-        buttonNext.setFont(fonteMedia);
-        buttonNext.setFocusPainted(false);
-        buttonNext.setBackground(Color.WHITE);
-        buttonNext.setForeground(Color.BLACK);
-        buttonNext.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(Color.DARK_GRAY),
-                new EmptyBorder(8, 15, 8, 15)));
+        labelDemanda.setFont(fonteTitulo);
+        labelTEG.setFont(fonteTitulo);
 
+        labelNumA.setFont(fonteNumero);
+        labelNumB.setFont(fonteNumero);
+        labelNumA.setForeground(Color.RED);
+        labelNumB.setForeground(Color.RED);
 
-        panel.add(buttonBack);
-        panel.add(buttonReset);
-        panel.add(buttonNext);
+        JPanel painelA = new JPanel(new BorderLayout());
+        painelA.add(labelDemanda, BorderLayout.NORTH);
+        painelA.add(labelNumA, BorderLayout.CENTER);
 
-        // Assinatura
-        panelContainer.setLayout(new BoxLayout(panelContainer, BoxLayout.Y_AXIS));
-        labelAssinatura.setFont(new Font("Arial", Font.PLAIN, 12));
-        labelAssinatura.setForeground(Color.GRAY);
-        labelAssinatura.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JPanel painelB = new JPanel(new BorderLayout());
+        painelB.add(labelTEG, BorderLayout.NORTH);
+        painelB.add(labelNumB, BorderLayout.CENTER);
 
-        panelContainer.add(panel);
-        panelContainer.add(Box.createRigidArea(new Dimension(0, 5)));
-        panelContainer.add(labelAssinatura);
+        JPanel grid = new JPanel(new GridLayout(1, 2));
+        grid.add(painelA);
+        grid.add(painelB);
 
-        // Adicionando na Janela
-        janela.add(labelNum, BorderLayout.CENTER);
-        janela.add(labelText, BorderLayout.NORTH);
-        janela.add(panelContainer, BorderLayout.SOUTH);
+        JLabel assinatura = new JLabel("Desenvolvido por: Felipe Yudi");
+        assinatura.setFont(new Font("Arial", Font.PLAIN, 12));
+        assinatura.setForeground(Color.GRAY);
 
-        // Metodo dos botões
-        buttonNext.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                avancarSenha();
-            }
-        });
+        JPanel rodape = new JPanel();
+        rodape.add(assinatura);
 
-        buttonBack.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(senha > 0) {
-                    voltarSenha();
-                }
-            }
-        });
+        janela.add(grid, BorderLayout.CENTER);
+        janela.add(rodape, BorderLayout.SOUTH);
 
-        buttonReset.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deleteSenha();
-            }
-        });
-
-        // Controle pelo teclado
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-            @Override
-            public boolean dispatchKeyEvent(KeyEvent e) {
-                if(e.getID() == KeyEvent.KEY_RELEASED) {
-                    if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                        avancarSenha();
-                    } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                        voltarSenha();
-                    } else if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-                        deleteSenha();
+        KeyboardFocusManager.getCurrentKeyboardFocusManager()
+                .addKeyEventDispatcher(e -> {
+                    if (e.getID() == KeyEvent.KEY_RELEASED) {
+                        switch (e.getKeyCode()) {
+                            case KeyEvent.VK_UP: avancarA(); break;
+                            case KeyEvent.VK_DOWN: voltarA(); break;
+                            case KeyEvent.VK_DELETE: zerarA(); break;
+                            case KeyEvent.VK_W: avancarB(); break;
+                            case KeyEvent.VK_S: voltarB(); break;
+                            case KeyEvent.VK_D: zerarB(); break;
+                        }
                     }
-                }
-                return false;
-            }
-        });
+                    return false;
+                });
 
-        // Desenha a tela
         janela.setVisible(true);
     }
 }
