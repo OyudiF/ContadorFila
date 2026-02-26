@@ -4,6 +4,8 @@ import java.awt.event.KeyEvent;
 
 public class ContadorFila {
 
+    static boolean isFullScreen = false;
+
     private static int senhaA = 0;
     private static int senhaB = 0;
 
@@ -47,11 +49,11 @@ public class ContadorFila {
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         janela.setLayout(new BorderLayout());
 
-        Font fonteNumero = new Font("Arial", Font.BOLD, 600);
-        Font fonteTitulo = new Font("Arial", Font.BOLD, 50);
+        Font fonteNumero = new Font("Arial", Font.BOLD, 550);
+        Font fonteTitulo = new Font("Arial", Font.BOLD, 100);
 
-        JLabel labelDemanda = new JLabel("Demanda", SwingConstants.CENTER);
-        JLabel labelTEG = new JLabel("TEG", SwingConstants.CENTER);
+        JLabel labelDemanda = new JLabel("VAGAS", SwingConstants.CENTER);
+        JLabel labelTEG = new JLabel("TRANSPORTE", SwingConstants.CENTER);
 
         labelDemanda.setFont(fonteTitulo);
         labelTEG.setFont(fonteTitulo);
@@ -59,7 +61,7 @@ public class ContadorFila {
         labelNumA.setFont(fonteNumero);
         labelNumB.setFont(fonteNumero);
         labelNumA.setForeground(Color.RED);
-        labelNumB.setForeground(Color.RED);
+        labelNumB.setForeground(Color.BLUE);
 
         JPanel painelA = new JPanel(new BorderLayout());
         painelA.add(labelDemanda, BorderLayout.NORTH);
@@ -93,11 +95,34 @@ public class ContadorFila {
                             case KeyEvent.VK_W: avancarB(); break;
                             case KeyEvent.VK_S: voltarB(); break;
                             case KeyEvent.VK_D: zerarB(); break;
+                            case KeyEvent.VK_F11: toggleFullScreen(janela); break;
                         }
                     }
                     return false;
                 });
 
+        janela.pack();
         janela.setVisible(true);
     }
+
+    public static void toggleFullScreen(JFrame janela) {
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+
+        janela.dispose();
+
+        if(!isFullScreen) {
+            janela.setUndecorated(true);
+            gd.setFullScreenWindow(null);
+            isFullScreen = true;
+        } else {
+            janela.setUndecorated(false);
+            gd.setFullScreenWindow(null);
+            janela.setSize(1280, 720);
+            janela.setLocationRelativeTo(null);
+            isFullScreen = false;
+        }
+
+        janela.setVisible(true);
+    }
+
 }
